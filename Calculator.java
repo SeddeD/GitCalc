@@ -191,8 +191,10 @@ public class calc {
                     continue;
                 case 3:
                     finish = true;
+                    System.out.println(" Всем пока :)")
                 default:
-                    System.out.println(" Введите цифру 1, 2 или 3 для выбора пункта меню");
+                        if (sw != 3)
+                            System.out.println(" Введите цифру 1, 2 или 3 для выбора пункта меню");
             }
             } catch (NumberFormatException | InputMismatchException e) {
                 System.out.println(" Введите цифру 1, 2 или 3 для выбора пункта меню");
