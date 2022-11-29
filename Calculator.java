@@ -2,48 +2,49 @@ import java.util.*;
 
 public class calc {
     public static int functionToCalculation(String s) {
-        try {
-            StringBuilder sa = new StringBuilder();
-            int i = 0;
-            sa.append(s.charAt(i));
-            i++;
-            if (s.charAt(i) == '0') {
-                sa.append(s.charAt(i));
+            try {
+                String str = "";
+                int i = 0;
+                while (s.charAt(i) == ' ') {
+                    i++;
+                }
+                str = str.concat(String.valueOf(s.charAt(i)));
                 i++;
-            }
-            int a = Integer.parseInt(String.valueOf(sa));
-            while (s.charAt(i) == ' ') {
+                if (s.charAt(i) == '0') {
+                    str = str.concat(String.valueOf(s.charAt(i)));
+                    i++;
+                }
+                int a = Integer.parseInt(str);
+                while (s.charAt(i) == ' ') {
+                    i++;
+                }
+                char sign = s.charAt(i);
                 i++;
-            }
-            char sign = s.charAt(i);
-            i++;
-            while (s.charAt(i) == ' ') {
+                while (s.charAt(i) == ' ') {
+                    i++;
+                }
+                str = "";
+                str = str.concat(String.valueOf(s.charAt(i)));
                 i++;
-            }
-            sa.delete(0,2);
-            sa.append(s.charAt(i));
-            i++;
-            if (i < s.length())
-                sa.append(s.charAt(i));
-            int b = Integer.parseInt(String.valueOf(sa));
-            if (a > 0 && a <= 10 && b > 0 && b <= 10) {
-                if (sign == '+') {
-                    return ((a + b));
-                } else if (sign == '-') {
-                    return ((a - b));
-                } else if (sign == '*') {
-                    return ((a * b));
-                } else if (sign == '/') {
-                    if (a % b != 0)
-                        return (401);
-                    else
-                        return ((a / b));
+                if (i < s.length())
+                    str = str.concat(String.valueOf(s.charAt(i)));
+                int b = Integer.parseInt(str);
+                if (a > 0 && a <= 10 && b > 0 && b <= 10) {
+                    if (sign == '+') {
+                        return ((a + b));
+                    } else if (sign == '-') {
+                        return ((a - b));
+                    } else if (sign == '*') {
+                        return ((a * b));
+                    } else if (sign == '/') {
+                        int r = a / b;
+                        return (r);
+                    } else
+                        return (404);
                 } else
                     return (404);
-            } else
+            } catch (NumberFormatException | InputMismatchException | StringIndexOutOfBoundsException e) {
                 return (404);
-        } catch (NumberFormatException | InputMismatchException | StringIndexOutOfBoundsException e) {
-            return (404);
         }
     }
 
@@ -57,9 +58,11 @@ public class calc {
         String s2 = "";
         try {
             int i = 0;
-
+            while (s.charAt(i) == ' ') {
+                i++;
+            }
             while (map.containsKey(s.charAt(i))) {
-                s1 = s1.concat("") + s.charAt(i);
+                s1 = s1.concat(String.valueOf(s.charAt(i)));
                 i++;
             }
             while (s.charAt(i) == ' ') {
@@ -70,9 +73,13 @@ public class calc {
             while (s.charAt(i) == ' ') {
                 i++;
             }
-            while (i < s.length() && map.containsKey(s.charAt(i))) {
-                s2 = s2.concat("") + s.charAt(i);
-                i++;
+            while (i < s.length()) {
+                if (map.containsKey(s.charAt(i))) {
+                    s2 = s2.concat(String.valueOf(s.charAt(i)));
+                    i++;
+                }
+                else
+                    return ("-");
             }
             int sum = map.get(s1.charAt(s1.length()-1));
             if (s1.length() > 1) {
@@ -95,7 +102,7 @@ public class calc {
                     }
                 }
             }
-            str = str.concat("") + sum;
+            str = str.concat(String.valueOf(sum));
             return (str);
         } catch (StringIndexOutOfBoundsException e) {
             return ("-");
@@ -159,38 +166,34 @@ public class calc {
                             int result = functionToCalculation(s);
                             if (result == 404)
                                 System.out.println("Введите пример формата 'a + b', где а и b - арабские числа от 1 до 10, \n используемые знаки арифметических операций: +, -, *, /.  \n Попробуйте снова: ");
-                            else if (result == 401) {
-                                System.out.println(" a целочисленно не делится на b \n Введите другой пример: ");
-                            }
                             else {
                                 System.out.println("Ответ: " + result);
                                 check = true;
                             }
                         }
                         continue;
-                    case 2:
-                        System.out.println(" Введите пример формата 'a + b', где а и b - римские числа от 1 до 10, \n используемые арабские числа: I, V, X. \n используемые знаки арифметических операций: +, -, *, /: ");
-                        check = false;
-                        while (!check) {
-                            String s = scan.nextLine();
-                            int result = functionToCalculation(inputRoman(s));
-                            if (result == 404)
-                                System.out.println(" Введите пример формата 'a + b', где а и b - римские числа от 1 до 10, \n используемые арабские числа: I, V, X. \n используемые знаки арифметических операций: +, -, *, /: \n Попробуйте снова: ");
-                            else if (result == 401) {
-                                System.out.println(" a целочисленно не делится на b \n Введите другой пример: ");
-                            }
-                            else {
-                                System.out.println("Ответ: " + outputRoman(result));
-
-                                check = true;
-                            }
+                case 2:
+                    System.out.println(" Введите пример формата 'a + b', где а и b - римские числа от 1 до 10, \n используемые арабские числа: I, V, X. \n используемые знаки арифметических операций: +, -, *, /: ");
+                    check = false;
+                    while (!check) {
+                        String s = scan.nextLine();
+                        int result = functionToCalculation(inputRoman(s));
+                        if (result == 404)
+                            System.out.println(" Введите пример формата 'a + b', где а и b - римские числа от 1 до 10, \n используемые арабские числа: I, V, X. \n используемые знаки арифметических операций: +, -, *, /: \n Попробуйте снова: ");
+                        else if (result < 1) {
+                            System.out.println(" Ответ меньше I. \n В римских числах нет чисел меньше единицы \n Введите другой пример: ");
                         }
-                        continue;
-                    case 3:
-                        finish = true;
-                    default:
-                        System.out.println(" Введите цифру 1, 2 или 3 для выбора пункта меню");
-                }
+                        else {
+                            System.out.println("Ответ: " + outputRoman(result));
+                            check = true;
+                        }
+                    }
+                    continue;
+                case 3:
+                    finish = true;
+                default:
+                    System.out.println(" Введите цифру 1, 2 или 3 для выбора пункта меню");
+            }
             } catch (NumberFormatException | InputMismatchException e) {
                 System.out.println(" Введите цифру 1, 2 или 3 для выбора пункта меню");
             }
