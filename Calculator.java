@@ -2,49 +2,49 @@ import java.util.*;
 
 public class calc {
     public static int functionToCalculation(String s) {
-            try {
-                String str = "";
-                int i = 0;
-                while (s.charAt(i) == ' ') {
-                    i++;
-                }
+        try {
+            String str = "";
+            int i = 0;
+            while (s.charAt(i) == ' ') {
+                i++;
+            }
+            str = str.concat(String.valueOf(s.charAt(i)));
+            i++;
+            if (s.charAt(i) == '0') {
                 str = str.concat(String.valueOf(s.charAt(i)));
                 i++;
-                if (s.charAt(i) == '0') {
-                    str = str.concat(String.valueOf(s.charAt(i)));
-                    i++;
-                }
-                int a = Integer.parseInt(str);
-                while (s.charAt(i) == ' ') {
-                    i++;
-                }
-                char sign = s.charAt(i);
+            }
+            int a = Integer.parseInt(str);
+            while (s.charAt(i) == ' ') {
                 i++;
-                while (s.charAt(i) == ' ') {
-                    i++;
-                }
-                str = "";
+            }
+            char sign = s.charAt(i);
+            i++;
+            while (s.charAt(i) == ' ') {
+                i++;
+            }
+            str = "";
+            str = str.concat(String.valueOf(s.charAt(i)));
+            i++;
+            if (i < s.length())
                 str = str.concat(String.valueOf(s.charAt(i)));
-                i++;
-                if (i < s.length())
-                    str = str.concat(String.valueOf(s.charAt(i)));
-                int b = Integer.parseInt(str);
-                if (a > 0 && a <= 10 && b > 0 && b <= 10) {
-                    if (sign == '+') {
-                        return ((a + b));
-                    } else if (sign == '-') {
-                        return ((a - b));
-                    } else if (sign == '*') {
-                        return ((a * b));
-                    } else if (sign == '/') {
-                        int r = a / b;
-                        return (r);
-                    } else
-                        return (404);
+            int b = Integer.parseInt(str);
+            if (a > 0 && a <= 10 && b > 0 && b <= 10) {
+                if (sign == '+') {
+                    return ((a + b));
+                } else if (sign == '-') {
+                    return ((a - b));
+                } else if (sign == '*') {
+                    return ((a * b));
+                } else if (sign == '/') {
+                    int r = a / b;
+                    return (r);
                 } else
                     return (404);
-            } catch (NumberFormatException | InputMismatchException | StringIndexOutOfBoundsException e) {
+            } else
                 return (404);
+        } catch (NumberFormatException | InputMismatchException | StringIndexOutOfBoundsException e) {
+            return (404);
         }
     }
 
@@ -110,95 +110,60 @@ public class calc {
     }
 
     public static String outputRoman(int Res) {
-        String result = "";
-        String[] str = {"","",""};
-        float res = Res;
-        TreeMap<Integer, Character> map = new TreeMap<>(Comparator.reverseOrder());
-        map.put(100, 'C');
-        map.put(50, 'L');
-        map.put(10, 'X');
-        map.put(5, 'V');
-        map.put(1, 'I');
-        for (int i = 10, j = 0; res > 0; i *= 10, j++) {
-            while ((res % i) != 0) {
-                for (Map.Entry<Integer, Character> entry : map.entrySet()) {
-                    if ((res % i) / entry.getKey() == 0.9f) {
-                        res -= entry.getKey() * 0.9;
-                        str[j] = str[j].concat(String.valueOf(map.get(entry.getKey() / 10)));
-                        str[j] = str[j].concat(String.valueOf(map.get(entry.getKey())));
-                        break;
-                    } else if ((res % i) / entry.getKey() == 0.8f && res % i != 8*i/10f) {
-                        res -= entry.getKey() * 0.8;
-                        str[j] = str[j].concat(String.valueOf(map.get(entry.getKey() / 5)));
-                        str[j] = str[j].concat(String.valueOf(map.get(entry.getKey())));
-                        break;
-                    } else if ((res % i) / entry.getKey() >= 1) {
-                        res -= entry.getKey();
-                        str[j] = str[j].concat(String.valueOf(entry.getValue()));
-                        break;
+        if (Res == 404) {
+            return ("Error");
+        } else if (Res <= 0){
+            return ("Error");
+        }else {
+            String result = "";
+            String[] str = {"", "", ""};
+            float res = Res;
+            TreeMap<Integer, Character> map = new TreeMap<>(Comparator.reverseOrder());
+            map.put(100, 'C');
+            map.put(50, 'L');
+            map.put(10, 'X');
+            map.put(5, 'V');
+            map.put(1, 'I');
+            for (int i = 10, j = 0; res > 0; i *= 10, j++) {
+                while ((res % i) != 0) {
+                    for (Map.Entry<Integer, Character> entry : map.entrySet()) {
+                        if ((res % i) / entry.getKey() == 0.9f) {
+                            res -= entry.getKey() * 0.9;
+                            str[j] = str[j].concat(String.valueOf(map.get(entry.getKey() / 10)));
+                            str[j] = str[j].concat(String.valueOf(map.get(entry.getKey())));
+                            break;
+                        } else if ((res % i) / entry.getKey() == 0.8f && res % i != 8 * i / 10f) {
+                            res -= entry.getKey() * 0.8;
+                            str[j] = str[j].concat(String.valueOf(map.get(entry.getKey() / 5)));
+                            str[j] = str[j].concat(String.valueOf(map.get(entry.getKey())));
+                            break;
+                        } else if ((res % i) / entry.getKey() >= 1) {
+                            res -= entry.getKey();
+                            str[j] = str[j].concat(String.valueOf(entry.getValue()));
+                            break;
+                        }
                     }
                 }
             }
+            for (int i = 2; i >= 0; i--) {
+                result = result.concat(str[i]);
+            }
+            return (result);
         }
-        for (int i = 2; i >= 0; i--) {
-            result = result.concat(str[i]);
-        }
-        return (result);
     }
 
+    public static String Calc(String s) {
+        int result = functionToCalculation(s);
+        if (result != 404) {
+            return ("Ответ: " + result);
+        } else {
+            return (outputRoman(functionToCalculation(inputRoman(s))));
+        }
+    }
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        boolean finish = false;
-        boolean check;
-        while (!finish) {
-            System.out.println(" ========Меню========");
-            System.out.println(" 1. Калькулятор с арабскими числами");
-            System.out.println(" 2. Калькулятор с римскими числами");
-            System.out.println(" 3. Выход");
-            try {
-                int sw = Integer.parseInt(scan.nextLine());
-                switch (sw) {
-                    case 1:
-                        System.out.println(" Введите пример формата 'a + b', где а и b - арабские числа от 1 до 10, \n используемые знаки арифметических операций: +, -, *, /: ");
-                        check = false;
-                        while (!check) {
-                            String s = scan.nextLine();
-                            int result = functionToCalculation(s);
-                            if (result == 404)
-                                System.out.println("Введите пример формата 'a + b', где а и b - арабские числа от 1 до 10, \n используемые знаки арифметических операций: +, -, *, /.  \n Попробуйте снова: ");
-                            else {
-                                System.out.println("Ответ: " + result);
-                                check = true;
-                            }
-                        }
-                        continue;
-                case 2:
-                    System.out.println(" Введите пример формата 'a + b', где а и b - римские числа от 1 до 10, \n используемые арабские числа: I, V, X. \n используемые знаки арифметических операций: +, -, *, /: ");
-                    check = false;
-                    while (!check) {
-                        String s = scan.nextLine();
-                        int result = functionToCalculation(inputRoman(s));
-                        if (result == 404)
-                            System.out.println(" Введите пример формата 'a + b', где а и b - римские числа от 1 до 10, \n используемые арабские числа: I, V, X. \n используемые знаки арифметических операций: +, -, *, /: \n Попробуйте снова: ");
-                        else if (result < 1) {
-                            System.out.println(" Ответ меньше I. \n В римских числах нет чисел меньше единицы \n Введите другой пример: ");
-                        }
-                        else {
-                            System.out.println("Ответ: " + outputRoman(result));
-                            check = true;
-                        }
-                    }
-                    continue;
-                case 3:
-                    finish = true;
-                    System.out.println(" Всем пока :)")
-                default:
-                        if (sw != 3)
-                            System.out.println(" Введите цифру 1, 2 или 3 для выбора пункта меню");
-            }
-            } catch (NumberFormatException | InputMismatchException e) {
-                System.out.println(" Введите цифру 1, 2 или 3 для выбора пункта меню");
-            }
-        }
+        System.out.println("Введите пример:");
+        String s = scan.nextLine();
+        System.out.println(Calc(s));
     }
 }
